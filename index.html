@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FREAK OUT - 21 MAART</title>
+
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Comic Sans MS', cursive;
+    text-align: center;
+    color: white;
+    cursor: auto;
+    background: linear-gradient(45deg, red, orange, yellow, green, blue, purple);
+    background-size: 400% 400%;
+    animation: rainbowBG 8s ease infinite;
+    cursor: url("giphy-ezgif.com-resize.gif"), auto;
+}
+
+@keyframes rainbowBG {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -2;
+}
+
+#topImage {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    z-index: 1000;
+    animation: floatTop 3s ease-in-out infinite;
+}
+
+@keyframes floatTop {
+    0% { transform: translateX(-50%) translateY(0px); }
+    50% { transform: translateX(-50%) translateY(-20px); }
+    100% { transform: translateX(-50%) translateY(0px); }
+}
+
+h1 {
+    font-size: 70px;
+    margin-top: 200px;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from {text-shadow: 0 0 20px hotpink;}
+    to {text-shadow: 0 0 40px cyan;}
+}
+
+.quote {
+    font-size: 22px;
+    font-style: italic;
+    margin-top: 20px;
+}
+
+button {
+    font-size: 22px;
+    padding: 15px 30px;
+    margin: 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    background: lime;
+    color: black;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.3) rotate(5deg);
+    background: hotpink;
+    color: white;
+}
+
+.falling {
+    position: fixed;
+    width: 80px;
+    animation: fall linear infinite;
+    z-index: -1;
+}
+
+@keyframes fall {
+    from { transform: translateY(-100px) rotate(0deg); }
+    to { transform: translateY(110vh) rotate(360deg); }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- 🔥 TOP IMAGE (replace file name) -->
+<img id="topImage" src="Star_of_David.svg.png">
+
+<!-- 🎵 MUSIC -->
+<audio autoplay loop>
+    <source src="Dr. Dre - The Next Episode (feat. Snoop Dogg, Nate Dogg & Kurupt).mp3" type="audio/mpeg">
+</audio>
+
+<h1>🔥 WE WANT YOU(mayco & maxim)! 🔥<br>TO COME TO FREAK OUT 21 MAART</h1>
+
+<p class="quote">
+"mama leerde mij stappen, maar voor die krak ging ik lopen"<br>
+– bart d.w.
+</p>
+
+<button onclick="coming()">ik kom</button>
+<button onclick="alert('fuck you buddy')">nah</button>
+
+<script>
+
+/* 🎉 CONFETTI */
+function confettiExplosion() {
+    for (let i = 0; i < 200; i++) {
+        let confetti = document.createElement("div");
+        confetti.style.position = "fixed";
+        confetti.style.width = "10px";
+        confetti.style.height = "10px";
+        confetti.style.background = `hsl(${Math.random()*360}, 100%, 50%)`;
+        confetti.style.left = "50%";
+        confetti.style.top = "50%";
+        confetti.style.borderRadius = "50%";
+        document.body.appendChild(confetti);
+
+        let angle = Math.random() * 2 * Math.PI;
+        let velocity = Math.random() * 500;
+
+        confetti.animate([
+            { transform: 'translate(0,0)' },
+            { transform: `translate(${Math.cos(angle)*velocity}px, ${Math.sin(angle)*velocity}px)` }
+        ], {
+            duration: 2000,
+            easing: "ease-out"
+        });
+
+        setTimeout(() => confetti.remove(), 2000);
+    }
+}
+
+/* 🌧️ FALLING IMAGES */
+function createFallingImage() {
+    let img = document.createElement("img");
+    img.src = "Aiki-Chicken-cup.png"; // YOU change this
+    img.className = "falling";
+    img.style.left = Math.random() * 100 + "vw";
+    img.style.animationDuration = (Math.random() * 5 + 5) + "s";
+    document.body.appendChild(img);
+
+    setTimeout(() => img.remove(), 10000);
+}
+
+setInterval(createFallingImage, 800);
+
+/* 😈 IK KOM BUTTON */
+function coming() {
+    let name = prompt("Wat is je naam legend?");
+
+    if(name){
+        confettiExplosion();
+        alert("YESSSS " + name + " KOMT NAAR FREAK OUT 🔥");
+
+        // 👇 EMAIL PART (needs EmailJS setup)
+        emailjs.send("service_jw1eai8","template_fi46y4s",{
+            from_name: name,
+            message: name + " komt naar Freak Out 21 Maart!"
+        });
+    }
+}
+
+</script>
+
+<!-- 📧 EMAILJS SCRIPT -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+(function(){
+    emailjs.init("3U8p6EVeLhhdwesC_");
+})();
+</script>
+
+</body>
+</html>
